@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .button {
+            background-color: lightblue;
+            width: 100px;
+            height: 100px;
+            border-radius: 3px;
+            border: 6px solid darkblue;
+            margin: 15px 15px;
+        }
+
+        .button:hover {
+            background-color: darkgray;
+        }
+
+    </style>
+
+    <script src="libs/howler.js"></script>
+
+    <title>sampler</title>
+</head>
+<body>
+
+    <div class="container">
+        
+     </div>
+
+</body>
+
+<script>
+const numSounds = 5;
+const sounds = Array.from({ length: numSounds}, (e, i) => new Howl({ src: `sounds/${i}.mp3`, html5: false, volume: 0.9, loop: false}));
+const getRandomColor = () => `#${Math.floor(Math.random()*16777215 ).toString(16)}`;
+const colors = Array.from({ length: numSounds }, () => getRandomColor() );
+console.log(colors);
+
+const container = document.querySelector('.container');
+const numButtons = numSounds;
+const makeDiv = (index) => {
+    div = document.createElement('div');
+    div.className = 'button';
+    div.style.backgroundColor = colors[index];
+
+    return div
+}
+
+const buttons = Array.from({ length: numButtons }, (element, index) => makeDiv(index));
+console.log(buttons);
+buttons.forEach(button => container.appendChild(button));
+
+buttons.forEach( (button, index) =>{
+    button.addEventListener('click', () => {
+        playSound(sounds[index])
+    })
+    button.addEventListener('mouseover', () => {
+        button.style.backgroundColor='lightgrey';
+    })
+    button.addEventListener('mouseout', () => {
+        button.style.backgroundColor=colors[index];
+    })
+})
+
+const playSound = (sound) => {
+    sound.play();
+}
+//sounds.forEach(sound => container.appendChild(sound));
+
+//playSound(sound0);
+
+//const playSound0 = () => {
+//    sound0.play();
+//}
+
+</script>
+</html>
